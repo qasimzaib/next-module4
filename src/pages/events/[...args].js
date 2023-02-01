@@ -6,6 +6,7 @@ import { getFilteredEvents } from "@/helpers/api-utils";
 import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
 import useSWR from "swr";
+import Head from "next/head";
 
 export default function FilteredEventsPage(props) {
 	const router = useRouter();
@@ -34,14 +35,41 @@ export default function FilteredEventsPage(props) {
 		}
 	}, [data]);
 
+	
+
+	let headData = (
+		<Head>
+			<title>Filtered Events</title>
+			<meta
+				name="description"
+				content={`A list of filtered events`}
+			/>
+		</Head>
+	);
+
 	if (!events) {
-		return <p className="center">Loading...</p>;
+		return (
+			<Fragment>
+				{headData}
+				<p className="center">Loading...</p>
+			</Fragment>
+		);
 	}
 
 	const selectedYear = filterData[0];
 	const selectedMonth = filterData[1];
 	const numSelectedYear = +selectedYear;
 	const numSelectedMonth = +selectedMonth;
+
+	headData = (
+		<Head>
+			<title>Filtered Events</title>
+			<meta
+				name="description"
+				content={`All events for ${numSelectedMonth}/${numSelectedYear}`}
+			/>
+		</Head>
+	);
 
 	if (
 		isNaN(numSelectedYear) ||
@@ -53,6 +81,7 @@ export default function FilteredEventsPage(props) {
 	) {
 		return (
 			<Fragment>
+				{headData}
 				<ErrorAlert>
 					<p>Invalid Search</p>
 				</ErrorAlert>
@@ -74,6 +103,7 @@ export default function FilteredEventsPage(props) {
 	if (!filteredEvents || filteredEvents.length === 0) {
 		return (
 			<Fragment>
+				{headData}
 				<ErrorAlert>
 					<p>No events found</p>
 				</ErrorAlert>
@@ -88,6 +118,7 @@ export default function FilteredEventsPage(props) {
 
 	return (
 		<Fragment>
+			{headData}
 			<ResultsTitle date={date} />
 			<EventList items={filteredEvents} />
 		</Fragment>
