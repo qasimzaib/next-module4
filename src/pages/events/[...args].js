@@ -35,15 +35,10 @@ export default function FilteredEventsPage(props) {
 		}
 	}, [data]);
 
-	
-
 	let headData = (
 		<Head>
 			<title>Filtered Events</title>
-			<meta
-				name="description"
-				content={`A list of filtered events`}
-			/>
+			<meta name="description" content={`A list of filtered events`} />
 		</Head>
 	);
 
